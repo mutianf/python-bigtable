@@ -4,6 +4,31 @@
 
 [1]: https://pypi.org/project/google-cloud-bigtable/#history
 
+## [2.0.0-dev1](https://www.github.com/googleapis/python-bigtable/compare/v1.7.0...v2.0.0-dev1) (2021-03-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* microgenerator changes (#203)
+
+### Features
+
+* microgenerator changes ([#203](https://www.github.com/googleapis/python-bigtable/issues/203)) ([b31bd87](https://www.github.com/googleapis/python-bigtable/commit/b31bd87c3fa8cad32768611a52d5effcc7d9b3e2))
+* publish new fields for CMEK ([#222](https://www.github.com/googleapis/python-bigtable/issues/222)) ([0fe5b63](https://www.github.com/googleapis/python-bigtable/commit/0fe5b638e45e711d25f55664689a9baf4d12dc57))
+
+
+### Bug Fixes
+
+* address issue in establishing an emulator connection ([#246](https://www.github.com/googleapis/python-bigtable/issues/246)) ([1a31826](https://www.github.com/googleapis/python-bigtable/commit/1a31826e2e378468e057160c07d850ebca1c5879))
+* fix unit test that could be broken by user's environment ([#239](https://www.github.com/googleapis/python-bigtable/issues/239)) ([cbd712e](https://www.github.com/googleapis/python-bigtable/commit/cbd712e6d3aded0c025525f97da1d667fbe2f061))
+* guard assignments of certain values against None ([#220](https://www.github.com/googleapis/python-bigtable/issues/220)) ([341f448](https://www.github.com/googleapis/python-bigtable/commit/341f448ce378375ab79bfc82f864fb6c88ed71a0))
+* **retry:** restore grpc_service_config for CreateBackup and {Restore,Snapshot}Table ([#240](https://www.github.com/googleapis/python-bigtable/issues/240)) ([79f1734](https://www.github.com/googleapis/python-bigtable/commit/79f1734c897e5e1b2fd02d043185c44b7ee34dc9))
+
+
+### Dependencies
+
+* update gapic-generator-python to 0.40.11 ([#230](https://www.github.com/googleapis/python-bigtable/issues/230)) ([47d5dc1](https://www.github.com/googleapis/python-bigtable/commit/47d5dc1853f0be609e666e8a8fad0146f2905482))
+
 ## [2.0.0-dev1](https://www.github.com/googleapis/python-bigtable/compare/v1.7.0...v2.0.0-dev1) (2021-02-24)
 
 
