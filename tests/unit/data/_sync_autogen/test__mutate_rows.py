@@ -307,3 +307,38 @@ class TestMutateRowsOperation:
         assert len(instance.errors[1]) == 1
         assert instance.errors[1][0].grpc_status_code == 300
         assert 2 not in instance.errors
+
+    def test_start_missing_response_entry(self):
+        """When a 3-entry request receives only indices 0 and 2 on normal stream close,
+        MutationsExceptionGroup is raised containing FailedMutationEntryError with InternalServerError for index 1."""
+        from google.cloud.bigtable.data.exceptions import MutationsExceptionGroup
+        from google.cloud.bigtable.data.exceptions import FailedMutationEntryError
+        from google.api_core.exceptions import InternalServerError
+
+        mutations = [
+            self._make_mutation(),
+            self._make_mutation(),
+            self._make_mutation(),
+        ]
+
+        def mock_partial_stream(*args, **kwargs):
+            yield MutateRowsResponse(
+                entries=[
+                    MutateRowsResponse.Entry(index=0, status=status_pb2.Status(code=0)),
+                    MutateRowsResponse.Entry(index=2, status=status_pb2.Status(code=0)),
+                ]
+            )
+
+        mock_gapic_fn = CrossSync._Sync_Impl.Mock()
+        mock_gapic_fn.side_effect = mock_partial_stream
+        instance = self._make_one(mutation_entries=mutations)
+        with mock.patch.object(instance, "_gapic_fn", mock_gapic_fn):
+            with pytest.raises(MutationsExceptionGroup) as exc_info:
+                instance.start()
+        err_group = exc_info.value
+        assert len(err_group.exceptions) == 1
+        entry_err = err_group.exceptions[0]
+        assert isinstance(entry_err, FailedMutationEntryError)
+        assert entry_err.index == 1
+        assert isinstance(entry_err.__cause__, InternalServerError)
+

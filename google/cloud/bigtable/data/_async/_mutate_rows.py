@@ -204,6 +204,13 @@ class _MutateRowsOperationAsync:
                 self._handle_entry_error(idx, exc)
             # bubble up exception to be handled by retry wrapper
             raise
+        for orig_idx in active_request_indices.values():
+            self._handle_entry_error(
+                orig_idx,
+                core_exceptions.InternalServerError(
+                    "Mutation result missing from server response"
+                ),
+            )
         # check if attempt succeeded, or needs to be retried
         if self.remaining_indices:
             # unfinished work; raise exception to trigger retry
